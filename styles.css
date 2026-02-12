@@ -68,6 +68,8 @@ body {
     opacity: 0;
     transition: opacity 0.4s ease;
     min-height: 1.6em;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .deck {
@@ -427,10 +429,14 @@ body {
     }
     .knob-wrapper {
         right: 16px;
-        bottom: 20px;
+        bottom: 24px;
     }
     .knob {
-        width: 48px;
-        height: 48px;
+        width: 64px;
+        height: 64px;
+        touch-action: none;
+    }
+    .valentine-text {
+        font-size: 1.3rem;
     }
 }
