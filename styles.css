@@ -1,0 +1,462 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(160deg, #4f9cff 0%, #6fb5ff 45%, #a8d8ff 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+/* Side flowers (appear after text completes) */
+.flower {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%) scale(0.8);
+    font-size: 3rem;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+    z-index: 18;
+}
+
+.flower-left {
+    left: 4%;
+}
+
+.flower-right {
+    right: 4%;
+    transform: translateY(-50%) scale(0.8) rotate(10deg);
+}
+
+body.flowers-visible .flower {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+/* Hearts overlay */
+.heart-rain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 20;
+}
+
+.heart {
+    position: absolute;
+    top: -10%;
+    color: #ff4b8a;
+    font-size: 1.4rem;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    animation: heart-fall 4s linear forwards;
+}
+
+@keyframes heart-fall {
+    0% {
+        transform: translateY(0) scale(0.9);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(120vh) scale(1.1);
+        opacity: 0;
+    }
+}
+
+/* Record player chassis */
+.record-player {
+    --record-size: min(75vw, 420px);
+    --label-size: calc(var(--record-size) * 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Valentine text near top of record player */
+.valentine-text {
+    color: #ffd9e6;
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    letter-spacing: 0.06em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    min-height: 1.6em;
+}
+
+.deck {
+    position: relative;
+    width: calc(var(--record-size) + 80px);
+    padding: 40px 36px 50px;
+    background: linear-gradient(180deg, #3d2914 0%, #2a1c0e 30%, #1f1509 100%);
+    border-radius: 16px;
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.06),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid #2a1c0e;
+}
+
+/* Wood grain texture (subtle) */
+.deck::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none;
+}
+
+/* Metal screws in the corners of the deck */
+.deck::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: 18px;
+    left: 22px;
+    background: radial-gradient(circle at 30% 30%, #ffffff 0%, #c0c0c0 40%, #444444 100%);
+    box-shadow:
+        calc(100% - 44px) 0 0 0 #00000066,
+        0 calc(100% - 40px) 0 0 #00000066,
+        calc(100% - 44px) calc(100% - 40px) 0 0 #00000066;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+/* Metal platter (under the record) */
+.platter {
+    width: var(--record-size);
+    height: var(--record-size);
+    margin: 0 auto;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #5a5a5a 0%, #3a3a3a 50%, #2a2a2a 100%);
+    box-shadow:
+        inset 0 4px 12px rgba(255, 255, 255, 0.15),
+        inset 0 -4px 12px rgba(0, 0, 0, 0.4),
+        0 6px 20px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    position: relative;
+}
+
+/* Subtle highlight ring on platter to feel more metallic */
+.platter::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.2),
+        inset 0 0 18px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+/* The vinyl record */
+.record {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        #1a1a1a 0%,
+        #0d0d0d 30%,
+        #080808 100%
+    );
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Grooves on the record */
+.record-grooves {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-radial-gradient(
+        circle at 50% 50%,
+        transparent 0px,
+        transparent 2px,
+        rgba(255, 255, 255, 0.08) 2px,
+        rgba(255, 255, 255, 0.08) 3px
+    );
+    background-size: 100% 100%;
+    pointer-events: none;
+}
+
+/* Center label = album art (current slide) */
+.record-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--label-size);
+    height: var(--label-size);
+    margin-left: calc(var(--label-size) / -2);
+    margin-top: calc(var(--label-size) / -2);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.4),
+        0 4px 20px rgba(0, 0, 0, 0.5);
+    background: #111;
+    z-index: 2;
+}
+
+/* Slideshow inside the label */
+.record-label .slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.record-label .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.record-label .slide.active {
+    opacity: 1;
+}
+
+.record-label .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
+}
+
+/* Tonearm */
+.tonearm {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    margin-left: calc(var(--record-size) / 2 + 24px);
+    margin-top: -8px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.tonearm-arm {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: calc(var(--record-size) * 0.52);
+    height: 6px;
+    margin-top: -3px;
+    background: linear-gradient(90deg, #2a2a2a 0%, #3d3d3d 30%, #4a4a4a 70%, #3a3a3a 100%);
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    transform-origin: right center;
+    transform: rotate(-18deg);
+}
+
+.tonearm-head {
+    position: absolute;
+    left: calc(var(--record-size) * -0.52);
+    top: 50%;
+    width: 14px;
+    height: 10px;
+    margin-left: -7px;
+    margin-top: -5px;
+    background: linear-gradient(145deg, #4a4a4a 0%, #2a2a2a 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    transform-origin: right center;
+    transform: rotate(-18deg);
+}
+
+/* Tonearm pivot (base) */
+.tonearm::before {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #5a5a5a 0%, #3a3a3a 100%);
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.2), 0 2px 6px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+/* Center spindle */
+.spindle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    margin-top: -6px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #4a4a4a, #2a2a2a);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+/* Knob on the deck */
+.knob-wrapper {
+    position: absolute;
+    right: 28px;
+    bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+/* Record player style knob */
+.knob {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 35% 35%,
+        #4a4a4a 0%,
+        #2d2d2d 25%,
+        #1f1f1f 60%,
+        #181818 100%
+    );
+    box-shadow:
+        inset 0 3px 8px rgba(255, 255, 255, 0.06),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+        0 6px 18px rgba(0, 0, 0, 0.4);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: transform 0.08s ease-out;
+}
+
+.knob::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        #3a3a3a 0deg 6deg, #252525 6deg 12deg,
+        #3a3a3a 12deg 18deg, #252525 18deg 24deg,
+        #3a3a3a 24deg 30deg, #252525 30deg 36deg,
+        #3a3a3a 36deg 42deg, #252525 42deg 48deg,
+        #3a3a3a 48deg 54deg, #252525 54deg 60deg,
+        #3a3a3a 60deg 66deg, #252525 66deg 72deg,
+        #3a3a3a 72deg 78deg, #252525 78deg 84deg,
+        #3a3a3a 84deg 90deg, #252525 90deg 96deg,
+        #3a3a3a 96deg 102deg, #252525 102deg 108deg,
+        #3a3a3a 108deg 114deg, #252525 114deg 120deg,
+        #3a3a3a 120deg 126deg, #252525 126deg 132deg,
+        #3a3a3a 132deg 138deg, #252525 138deg 144deg,
+        #3a3a3a 144deg 150deg, #252525 150deg 156deg,
+        #3a3a3a 156deg 162deg, #252525 162deg 168deg,
+        #3a3a3a 168deg 174deg, #252525 174deg 180deg,
+        #3a3a3a 180deg 186deg, #252525 186deg 192deg,
+        #3a3a3a 192deg 198deg, #252525 198deg 204deg,
+        #3a3a3a 204deg 210deg, #252525 210deg 216deg,
+        #3a3a3a 216deg 222deg, #252525 222deg 228deg,
+        #3a3a3a 228deg 234deg, #252525 234deg 240deg,
+        #3a3a3a 240deg 246deg, #252525 246deg 252deg,
+        #3a3a3a 252deg 258deg, #252525 258deg 264deg,
+        #3a3a3a 264deg 270deg, #252525 270deg 276deg,
+        #3a3a3a 276deg 282deg, #252525 282deg 288deg,
+        #3a3a3a 288deg 294deg, #252525 294deg 300deg,
+        #3a3a3a 300deg 306deg, #252525 306deg 312deg,
+        #3a3a3a 312deg 318deg, #252525 318deg 324deg,
+        #3a3a3a 324deg 330deg, #252525 330deg 336deg,
+        #3a3a3a 336deg 342deg, #252525 342deg 348deg,
+        #3a3a3a 348deg 354deg, #252525 354deg 360deg
+    );
+    z-index: 0;
+    pointer-events: none;
+}
+
+.knob::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 35% 35%,
+        #3d3d3d 0%,
+        #262626 40%,
+        #1a1a1a 100%
+    );
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.knob:active {
+    cursor: grabbing;
+}
+
+.knob:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(180, 160, 120, 0.5);
+}
+
+.knob-hint {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .record-player {
+        --record-size: 82vw;
+    }
+    .deck {
+        padding: 24px 20px 40px;
+    }
+    .knob-wrapper {
+        right: 16px;
+        bottom: 20px;
+    }
+    .knob {
+        width: 48px;
+        height: 48px;
+    }
+}
