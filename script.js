@@ -16,10 +16,9 @@
     let songStarted = false;
     let wordStep = 0;
     let heartsStarted = false;
-    let flowersShown = false;
 
     const rotationPerSlide = 360 / totalSlides;
-    const stepsPerWord = 3; // increase this to require more turns per word
+    const stepsPerWord = 2; // lower = fewer turns needed per word
     const baseRotation = -90; // so 0° = top
 
     function setKnobRotation(angleDeg) {
@@ -62,7 +61,6 @@
                     if (wordCount === valentineWords.length) {
                         textCompleted = true;
                         startHeartRain();
-                        showFlowers();
                     }
                 } else {
                     // Once completed, keep full phrase visible
@@ -100,19 +98,8 @@
         if (!heartRainEl || heartsStarted) return;
         heartsStarted = true;
 
-        const durationMs = 4000;
         const intervalMs = 150;
-        const intervalId = setInterval(createHeart, intervalMs);
-
-        setTimeout(() => {
-            clearInterval(intervalId);
-        }, durationMs);
-    }
-
-    function showFlowers() {
-        if (flowersShown) return;
-        flowersShown = true;
-        document.body.classList.add('flowers-visible');
+        setInterval(createHeart, intervalMs);
     }
 
     function updateKnobRotation() {
